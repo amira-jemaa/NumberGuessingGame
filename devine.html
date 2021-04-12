@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+
+   <title>Devine le nombre</title>
+
+   
+ </head>
+
+ <body>
+   <h1>Devine le nombre</h1>
+
+   
+
+   <div class="form">
+     <label for="guessField">Deviner un nombre: </label><input type="text" id="guessField" class="guessField">
+     <input type="submit" value="envoyer" class="guessSubmit">
+   </div>
+
+   <div class="resultParas">
+     <p class="tentatives"></p>
+     <p class="DernierResultat"></p>
+     <p class="MoinsouPlus"></p>
+   </div>
+
+   <script>
+     let nbadeviner = Math.floor(Math.random() * 10) + 1;
+     const tentatives = document.querySelector('.tentatives');
+     const DernierResultat = document.querySelector('.DernierResultat');
+     const MoinsouPlus = document.querySelector('.MoinsouPlus');
+     const guessSubmit = document.querySelector('.guessSubmit');
+     const guessField = document.querySelector('.guessField');
+     let nbtentatives = 1;
+     let resetButton;
+
+     function checktentative() {
+       let userGuess = Number(guessField.value);
+       if (nbtentatives === 1) {
+        tentatives.textContent = 'Le dernier nombres deviné : ';
+       }
+
+       tentatives.textContent += userGuess + ' ';
+
+       if (userGuess === nbadeviner) {
+         alert('gagné!');
+         
+         MoinsouPlus.textContent = '';
+         setterminepartie();
+       } else if (nbtentatives === 10) {
+       alert('!!!PERDU!!!');
+         MoinsouPlus.textContent = '';
+         setterminepartie();
+       } else {
+       
+   
+         if(userGuess <nbadeviner) {
+         alert('c est plus!') ;
+         } else if(userGuess > nbadeviner) {
+          alert('c est moins');
+         }
+           else if(isNaN(userGuess)==1){
+   alert('farceur!');
+             
+}
+       }
+
+       nbtentatives++;
+       guessField.value = '';
+       guessField.focus();
+     }
+
+     guessSubmit.addEventListener('click', checktentative);
+
+     function setterminepartie() {
+       guessField.disabled = true;
+       guessSubmit.disabled = true;
+       resetButton = document.createElement('button');
+       resetButton.textContent = 'Nouvelle partie';
+       document.body.appendChild(resetButton);
+       resetButton.addEventListener('cliquer', resetJeu);
+     }
+
+     function resetJeu() {
+       nbtentatives = 1;
+       const resetParas = document.querySelectorAll('.resultParas p');
+       for(let i = 0 ; i < resetParas.length ; i++) {
+         resetParas[i].textContent = '';
+       }
+
+       resetButton.parentNode.removeChild(resetButton);
+       guessField.disabled = false;
+       guessSubmit.disabled = false;
+       guessField.value = '';
+       guessField.focus();
+      nbadeviner = Math.floor(Math.random() * 10) + 1;
+     }
+   </script>
+ </body>
+</html>
